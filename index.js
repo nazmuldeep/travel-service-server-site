@@ -31,6 +31,14 @@ async function run() {
             res.send(users)
 
         })
+        const BannerDataCollection = client.db('travel').collection('BannerData');
+        app.get('/banner', async (req, res) => {
+            const bannerQuery = {};
+            const bannercursor = BannerDataCollection.find(bannerQuery)
+            const banner = await bannercursor.toArray();
+            res.send(banner)
+
+        })
 
 
     } finally {
