@@ -31,7 +31,7 @@ async function run() {
             res.send(users)
 
         })
-        c
+
 
     } finally {
 
