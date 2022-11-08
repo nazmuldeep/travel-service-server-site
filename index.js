@@ -39,7 +39,12 @@ async function run() {
             res.send(banner)
 
         })
-
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            console.log(user)
+            const result = await UserDataCollection.insertOne(user)
+            res.send(result);
+        })
 
     } finally {
 
