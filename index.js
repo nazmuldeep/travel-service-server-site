@@ -80,7 +80,7 @@ async function run() {
             res.send(service)
         })
 
-        // rteview
+        // review
         const reviewDataCollection = db.collection('reviewData');
         app.post('/reviews', async (req, res) => {
             const review = req.body;
@@ -119,7 +119,7 @@ async function run() {
             res.send(result)
         })
 
-        app.delete('/reviews/:id', async (req, res) => {
+        app.delete('/reviewsdelete/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) }
             const result = await reviewDataCollection.deleteOne(query)
@@ -148,7 +148,7 @@ async function run() {
 run().catch(error => console.log(error))
 
 app.get('/', (req, res) => {
-    res.send('welcome to Wild Live server')
+    res.send('welcome to travel service server')
 });
 app.listen(port, () => {
     console.log(`server running on port ${port}`);
