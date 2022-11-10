@@ -95,6 +95,36 @@ async function run() {
             const review = await reviewCursor.sort(sort).toArray()
             res.send(review)
         })
+
+
+        app.get('/update/:id', async (req, res) => {
+            const id = req.params.id;
+            const serQuery = { _id: ObjectId(id) }
+            const review = await reviewDataCollection.findOne(serQuery)
+            res.send(review)
+        })
+        app.put('/update/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) }
+            const reviews = req.body;
+            const option = { upsert: true }
+            const updateReview = {
+                $set: {
+                    date: reviews.date,
+                    currentReview: reviews.currentReview
+                }
+            }
+            const result = await reviewDataCollection.updateOne(filter, updateReview, option)
+            res.send(result)
+        })
+
+        app.delete('/reviews/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const result = await reviewDataCollection.deleteOne(query)
+            res.send(result)
+        });
+
         app.get('/user_reviews/:id', async (req, res) => {
             const id = req.params.id;
             const serQuery = { userEmail: id }
@@ -103,8 +133,12 @@ async function run() {
             const review = await reviewCursor.sort(sort).toArray()
             res.send(review)
         })
-
-
+        app.get('/reviews', async (req, res) => {
+            const serQuery = {}
+            const reviewCursor = reviewDataCollection.find(serQuery)
+            const review = await reviewCursor.limit(6).toArray()
+            res.send(review)
+        })
 
     } finally {
 
